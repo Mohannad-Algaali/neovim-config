@@ -1,15 +1,10 @@
-
 return {
-  "yelog/i18n.nvim",
-  dependencies = { "nvim-lua/plenary.nvim" },
-  config = function()
-    local utils = require("utils.i18n")
-    local locales_path = utils.detect_locales_path()
-
-    require("i18n").setup({
-      locales_path = locales_path,
-      enable_keymap = false, -- we define our own
-    })
-  end,
+  "nabekou29/js-i18n.nvim",
+  dependencies = {
+    "neovim/nvim-lspconfig",
+    "nvim-treesitter/nvim-treesitter",
+    "nvim-lua/plenary.nvim",
+  },
+  event = { "BufReadPre", "BufNewFile" },
+  opts = {}
 }
-
