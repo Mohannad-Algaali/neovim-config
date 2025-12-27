@@ -7,4 +7,5 @@ return {
   { 'rebelot/kanagawa.nvim' },
   { 'brenoprata10/nvim-highlight-colors' },
   { 'ThePrimeagen/vim-be-good' },
+  { 'neanias/everforest-nvim' },
 }

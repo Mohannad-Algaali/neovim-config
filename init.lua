@@ -175,24 +175,24 @@ vim.o.confirm = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
-vim.diagnostic.config({
-    -- Configure how diagnostics are displayed in virtual text (inline)
-    virtual_text = {
-        severity = { min = vim.diagnostic.severity.ERROR }
-    },
-    -- Configure how diagnostics are displayed in signs (gutter icons)
-    signs = {
-        severity = { min = vim.diagnostic.severity.ERROR }
-    },
-    -- Configure which diagnostics are highlighted with an underline
-    underline = {
-        severity = { min = vim.diagnostic.severity.ERROR }
-    },
-    -- Configure jump commands (e.g., `:lua vim.diagnostic.jump()`) to only go to errors
-    jump = {
-        severity = { min = vim.diagnostic.severity.ERROR }
-    },
-})
+vim.diagnostic.config {
+  -- Configure how diagnostics are displayed in virtual text (inline)
+  virtual_text = {
+    severity = { min = vim.diagnostic.severity.ERROR },
+  },
+  -- Configure how diagnostics are displayed in signs (gutter icons)
+  signs = {
+    severity = { min = vim.diagnostic.severity.ERROR },
+  },
+  -- Configure which diagnostics are highlighted with an underline
+  underline = {
+    severity = { min = vim.diagnostic.severity.ERROR },
+  },
+  -- Configure jump commands (e.g., `:lua vim.diagnostic.jump()`) to only go to errors
+  jump = {
+    severity = { min = vim.diagnostic.severity.ERROR },
+  },
+}
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 vim.keymap.set({ 'n', 'v' }, 'x', '"_x', { desc = 'Delete without yanking' })
@@ -261,6 +261,16 @@ end
 local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
 
+-- Function to clear backgrounds
+local function transparent_neovim()
+    local groups = { "Normal", "NormalNC", "SignColumn", "NormalFloat", "StatusLine" }
+    for _, group in ipairs(groups) do
+        vim.api.nvim_set_hl(0, group, { bg = "none" })
+    end
+end
+
+-- Apply it
+transparent_neovim()
 -- [[ Configure and install plugins ]]
 --
 --  To check the current status of your plugins, run
@@ -927,28 +937,51 @@ require('lazy').setup({
       signature = { enabled = true },
     },
   },
+{
+  "sainnhe/everforest",
+  config = function()
+    vim.g.everforest_background = 'hard'
+    vim.g.everforest_transparent_background = 1 -- Set to 1 or 2
+    vim.cmd.colorscheme("everforest")
+  end
+},
+--   {
+--   "EdenEast/nightfox.nvim",
+--   config = function()
+--     vim.cmd.colorscheme("terafox")
+--   end
+-- },
 
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'rebelot/kanagawa.nvim',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
-    config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require('kanagawa').setup {
-        styles = {
-          comments = { italic = false }, -- Disable italics in comments
-        },
-      }
-
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'kanagawa-dragon'
-    end,
-  },
+  -- { -- You can easily change to a different colorscheme.
+  --   -- Change the name of the colorscheme plugin below, and then
+  --   -- change the command in the config to whatever the name of that colorscheme is.
+  --   --
+  --   -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
+  --   'rebelot/kanagawa.nvim',
+  --   priority = 1000, -- Make sure to load this before all the other start plugins.
+  --   config = function()
+  --     ---@diagnostic disable-next-line: missing-fields
+  --     require('kanagawa').setup {
+  --       styles = {
+  --         comments = { italic = false }, -- Disable italics in comments
+  --       },
+  --       opts = {
+  --         transparent = true, -- Set the background to transparent
+  --         theme = 'wave', -- You can choose "wave", "dragon", or "lotus"
+  --         -- Other options can be added here if needed
+  --       },
+  --       config = function(_, opts)
+  --         require('kanagawa').setup(opts)
+  --         vim.cmd('colorscheme kanagawa-' .. opts.theme)
+  --       end,
+  --     }
+  --
+  --     -- Load the colorscheme here.
+  --     -- Like many other themes, this one has different styles, and you could load
+  --     -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+  --     vim.cmd.colorscheme 'kanagawa-wave'
+  --   end,
+  -- },
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
