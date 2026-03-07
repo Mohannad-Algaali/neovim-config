@@ -15,4 +15,42 @@ It consists of the basic requirements for any code editor:
 - Lazy
 - LuaRocks
 
-
+## Structure
+.
+├── init.lua
+├── lua
+│   ├── custom
+│   │   ├── health.lua
+│   │   ├── keymaps.lua
+│   │   ├── lazy.lua
+│   │   ├── options.lua
+│   │   ├── plugins
+│   │   │   ├── autopairs.lua
+│   │   │   ├── blink.lua
+│   │   │   ├── codeium.lua
+│   │   │   ├── comments.lua
+│   │   │   ├── conform.lua
+│   │   │   ├── copilot.lua
+│   │   │   ├── diagram.lua
+│   │   │   ├── gitsigns.lua
+│   │   │   ├── highlight-color.lua
+│   │   │   ├── i18n.lua
+│   │   │   ├── image.lua
+│   │   │   ├── indent_line.lua
+│   │   │   ├── inlay.lua
+│   │   │   ├── lazydev.lua
+│   │   │   ├── love.lua
+│   │   │   ├── lsp.lua
+│   │   │   ├── markview.lua
+│   │   │   ├── mini.lua
+│   │   │   ├── neo-tree.lua
+│   │   │   ├── slides.lua
+│   │   │   ├── surround.lua
+│   │   │   ├── telescope.lua
+│   │   │   ├── treesitter.lua
+│   │   │   ├── typst.lua
+│   │   │   └── which-key.lua
+│   │   └── themes.lua
+│   └── utils
+│       └── i18n.lua
+└── README.md
