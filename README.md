@@ -16,7 +16,7 @@ It consists of the basic requirements for any code editor:
 - LuaRocks
 
 ## Structure
-.
+```bash .
 ├── init.lua
 ├── lua
 │   ├── custom
@@ -54,3 +54,4 @@ It consists of the basic requirements for any code editor:
 │   └── utils
 │       └── i18n.lua
 └── README.md
+```
