@@ -1,120 +1,17 @@
---[[
-
-=====================================================================
-==================== READ THIS BEFORE CONTINUING ====================
-=====================================================================
-========                                    .-----.          ========
-========         .----------------------.   | === |          ========
-========         |.-""""""""""""""""""-.|   |-----|          ========
-========         ||                    ||   | === |          ========
-========         ||   KICKSTART.NVIM   ||   |-----|          ========
-========         ||                    ||   | === |          ========
-========         ||                    ||   |-----|          ========
-========         ||:Tutor              ||   |:::::|          ========
-========         |'-..................-'|   |____o|          ========
-========         `"")----------------(""`   ___________      ========
-========        /::::::::::|  |::::::::::\  \ no mouse \     ========
-========       /:::========|  |==hjkl==:::\  \ required \    ========
-========      '""""""""""""'  '""""""""""""'  '""""""""""'   ========
-========                                                     ========
-=====================================================================
-=====================================================================
-
-What is Kickstart?
-
-  Kickstart.nvim is *not* a distribution.
-
-  Kickstart.nvim is a starting point for your own configuration.
-    The goal is that you can read every line of code, top-to-bottom, understand
-    what your configuration is doing, and modify it to suit your needs.
-
-    Once you've done that, you can start exploring, configuring and tinkering to
-    make Neovim your own! That might mean leaving Kickstart just the way it is for a while
-    or immediately breaking it into modular pieces. It's up to you!
-
-    If you don't know anything about Lua, I recommend taking some time to read through
-    a guide. One possible example which will only take 10-15 minutes:
-      - https://learnxinyminutes.com/docs/lua/
-
-    After understanding a bit more about Lua, you can use `:help lua-guide` as a
-    reference for how Neovim integrates Lua.
-    - :help lua-guide
-    - (or HTML version): https://neovim.io/doc/user/lua-guide.html
-
-Kickstart Guide:
-
-  TODO: The very first thing you should do is to run the command `:Tutor` in Neovim.
-
-    If you don't know what this means, type the following:
-      - <escape key>
-      - :
-      - Tutor
-      - <enter key>
-
-    (If you already know the Neovim basics, you can skip this step.)
-
-  Once you've completed that, you can continue working through **AND READING** the rest
-  of the kickstart init.lua.
-
-  Next, run AND READ `:help`.
-    This will open up a help window with some basic information
-    about reading, navigating and searching the builtin help documentation.
-
-    This should be the first place you go to look when you're stuck or confused
-    with something. It's one of my favorite Neovim features.
-
-    MOST IMPORTANTLY, we provide a keymap "<space>sh" to [s]earch the [h]elp documentation,
-    which is very useful when you're not exactly sure of what you're looking for.
-
-  I have left several `:help X` comments throughout the init.lua
-    These are hints about where to find more information about the relevant settings,
-    plugins or Neovim features used in Kickstart.
-
-   NOTE: Look for lines like this
-
-    Throughout the file. These are for you, the reader, to help you understand what is happening.
-    Feel free to delete them once you know what you're doing, but they should serve as a guide
-    for when you are first encountering a few different constructs in your Neovim config.
-
-If you experience any errors while trying to install kickstart, run `:checkhealth` for more info.
-
-I hope you enjoy your Neovim journey,
-- TJ
-
-P.S. You can delete this when you're done too. It's your config now! :)
---]]
-
--- Set <space> as the leader key
--- See `:help mapleader`
---  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
--- [[ Setting options ]]
--- See `:help vim.o`
--- NOTE: You can change these options as you wish!
---  For more options, you can see `:help option-list`
-
--- Make line numbers default
 vim.o.number = true
 vim.o.relativenumber = true
--- You can also add relative line numbers, to help with jumping.
---  Experiment for yourself to see if you like it!
--- vim.o.relativenumber = true
-
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
 
 -- Don't show the mode, since it's already in the status line
 vim.o.showmode = false
 
--- Sync clipboard between OS and Neovim.
---  Schedule the setting after `UiEnter` because it can increase startup-time.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
 vim.schedule(function()
   vim.o.clipboard = 'unnamedplus'
 end)
@@ -142,14 +39,7 @@ vim.o.timeoutlen = 300
 vim.o.splitright = true
 vim.o.splitbelow = true
 
--- Sets how neovim will display certain whitespace characters in the editor.
---  See `:help 'list'`
---  and `:help 'listchars'`
---
---  Notice listchars is set using `vim.opt` instead of `vim.o`.
---  It is very similar to `vim.o` but offers an interface for conveniently interacting with tables.
---   See `:help lua-options`
---   and `:help lua-options-guide`
+-- vim.o.winborder = 'rounded'
 vim.o.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
@@ -169,11 +59,13 @@ vim.o.confirm = true
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
-
+vim.opt.expandtab = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 4
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
-
 -- Diagnostic keymaps
 vim.diagnostic.config {
   -- Configure how diagnostics are displayed in virtual text (inline)
@@ -217,6 +109,10 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 -- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 -- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
+-- close all buffers except current one
+vim.keymap.set('n', '<leader>cb', ':%bd|e#|bd#<CR>', { desc = '[C]lose all [B]uffers except current' })
+vim.keymap.set('n', '<leader>ca', ':%bd<CR>', { desc = '[C]lose all [B]uffers ' })
+
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
 --
@@ -231,6 +127,13 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
 -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
+--
+-- define prisma file type
+vim.filetype.add {
+  extension = {
+    prisma = 'prisma',
+  },
+}
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -263,10 +166,10 @@ rtp:prepend(lazypath)
 
 -- Function to clear backgrounds
 local function transparent_neovim()
-    local groups = { "Normal", "NormalNC", "SignColumn", "NormalFloat", "StatusLine" }
-    for _, group in ipairs(groups) do
-        vim.api.nvim_set_hl(0, group, { bg = "none" })
-    end
+  local groups = { 'Normal', 'NormalNC', 'SignColumn', 'NormalFloat', 'StatusLine' }
+  for _, group in ipairs(groups) do
+    vim.api.nvim_set_hl(0, group, { bg = 'none' })
+  end
 end
 
 -- Apply it
@@ -310,6 +213,16 @@ require('lazy').setup({
         enable_tailwind = true, -- set true if you use tailwind class names
         -- you can add custom_colors or exclusions here if needed
         -- custom_colors = { { label = '%-%-my%-color', color = '#123456' } },
+        custom_colors = {
+          {
+            label = 'Color(0x%x%x%x%x%x%x%x%x',
+            color = function(match)
+              -- remove 0x and alpha (first 2 bytes)
+              local hex = match:sub(11) -- skip 0xAA
+              return '#' .. hex
+            end,
+          },
+        },
         -- exclude_filetypes = { 'markdown' }, -- example
       }
     end,
@@ -496,6 +409,12 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
+      -- vim.keymap.set('n', '<leader><space>', function()
+      --   builtin.find_files {
+      --     no_ignore = true,
+      --     hidden = true,
+      --   }
+      -- end, { desc = '[S]earch [F]iles' })
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
         -- You can pass additional configuration to Telescope to change the theme, layout, etc.
@@ -537,10 +456,24 @@ require('lazy').setup({
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
+    settings = {
+      Lua = {
+        workspace = {
+          library = {
+            -- This pulls in the love2d library from the LSP's internal storage
+            '${3rd}/love2d/library',
+          },
+        },
+        diagnostics = {
+          globals = { 'love' }, -- Stop the "undefined global" warning
+        },
+      },
+    },
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       -- Mason must be loaded before its dependents so we need to set it up here.
       -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
+
       { 'mason-org/mason.nvim', opts = {} },
       'mason-org/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
@@ -741,10 +674,35 @@ require('lazy').setup({
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         ts_ls = {},
-        --
         intelephense = {},
         ltex_plus = {},
+        -- kotlin_lsp = {},
+
+        arduino_language_server = {
+          cmd = {
+            'arduino-language-server',
+            '-clangd',
+            '/usr/bin/clangd',
+            '-cli',
+            'arduino-cli',
+            '-cli-config',
+            '/home/mohannad/.arduino15/arduino-cli.yaml',
+            '-fqbn',
+            'arduino:avr:uno',
+          },
+          capabilities = {
+            textDocument = {
+              semanticTokens = vim.NIL,
+            },
+            workspace = {
+              semanticTokens = vim.NIL,
+            },
+          },
+          filetypes = { 'arduino' },
+        },
+
         lua_ls = {
+
           -- cmd = { ... },
           -- filetypes = { ... },
           -- capabilities = {},
@@ -827,12 +785,42 @@ require('lazy').setup({
       --     lsp_format = 'fallback',
       --   }
       -- end
-      -- end,
+      formatters = {
+        prettier = {
+          -- This function prepends arguments to the prettier command
+          prepend_args = function()
+            return {
+              '--tab-width',
+              '4',
+              '--config-precedence', -- Optional: ensures CLI args take precedence over any config files
+              'prefer-file',
+            }
+          end,
+          -- Alternatively, you can use 'args' to set global options that are always used
+          -- args = { "--tab-width", "4" },
+        },
+        prisma = {
+          command = 'bunx',
+          args = { 'prisma', 'format', '--schema', '$FILENAME' },
+          stdin = false,
+        },
+      }, -- end,
       formatters_by_ft = {
+        -- Lua
         lua = { 'stylua' },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        -- You can use 'stop_after_first' to run the first available formatter from the list
+        -- Python
+        python = { 'isort', 'black' },
+        -- PHP
+        php = { 'pint' },
+        -- Rust
+        rust = { 'rustfmt' },
+        -- Kotlin
+        kotlin = { 'ktlint' },
+        -- Go
+        go = { 'gofmt' },
+        -- Prisma
+        prisma = { 'prisma' },
+        -- Anything Else(Mainly JS, TS, CSS, HTML, YAML, JSON)
         ['*'] = { 'prettier' },
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
       },
@@ -937,21 +925,32 @@ require('lazy').setup({
       signature = { enabled = true },
     },
   },
-{
-  "sainnhe/everforest",
-  config = function()
-    vim.g.everforest_background = 'hard'
-    vim.g.everforest_transparent_background = 1 -- Set to 1 or 2
-    vim.cmd.colorscheme("everforest")
-  end
-},
---   {
---   "EdenEast/nightfox.nvim",
---   config = function()
---     vim.cmd.colorscheme("terafox")
---   end
--- },
-
+  -- {
+  --   'sainnhe/everforest',
+  --   config = function()
+  --     vim.g.everforest_background = 'hard'
+  --     vim.g.everforest_transparent_background = 1 -- Set to 1 or 2
+  --     vim.cmd.colorscheme 'everforest'
+  --   end,
+  -- },
+  --   {
+  --   "EdenEast/nightfox.nvim",
+  --   config = function()
+  --     vim.cmd.colorscheme("terafox")
+  --   end
+  -- },
+  {
+    'catppuccin/nvim',
+    name = 'catppuccin',
+    priority = 1000,
+    config = function()
+      require('catppuccin').setup {
+        flavour = 'auto', -- latte, frappe, macchiato, mocha
+        transparent_background = true,
+      }
+      vim.cmd.colorscheme 'catppuccin-macchiato'
+    end,
+  },
   -- { -- You can easily change to a different colorscheme.
   --   -- Change the name of the colorscheme plugin below, and then
   --   -- change the command in the config to whatever the name of that colorscheme is.
@@ -1055,6 +1054,7 @@ require('lazy').setup({
         'markdown_inline',
         'regex',
         'yaml',
+        'kotlin',
       },
       auto_install = true,
       highlight = { enable = true },
@@ -1076,13 +1076,25 @@ require('lazy').setup({
   -- require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
-  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
-  require 'kickstart.plugins.git-visual',
-  require 'kickstart.plugins.vim-be-good',
-  -- require 'kickstart.plugins.markview',
-  require 'kickstart.plugins.rest',
-  require 'kickstart.plugins.i18n',
-  -- require 'kickstart.plugins.hologram', -- adds gitsigns recommend keymaps
+  -- require 'kickstart.plugins.harpoon',
+  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  -- require 'kickstart.plugins.git-visual',
+  -- require 'kickstart.plugins.vim-be-good',
+  require 'kickstart.plugins.markview',
+  -- require 'kickstart.plugins.rest',
+  -- require 'kickstart.plugins.i18n',
+  -- require 'kickstart.plugins.image',
+  -- require 'kickstart.plugins.copilot',
+  require 'kickstart.plugins.codeium',
+  -- require 'kickstart.plugins.surround',
+  require 'kickstart.plugins.typst',
+  -- require 'kickstart.plugins.android',
+  -- require 'kickstart.plugins.arduino',
+  -- require 'kickstart.plugins.inlay',
+  require 'kickstart.plugins.surround',
+  -- require 'kickstart.plugins.diagram',
+  -- require 'kickstart.plugins.slides',
+  require 'kickstart.plugins.love',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
