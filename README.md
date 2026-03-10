@@ -45,7 +45,6 @@ It consists of the basic requirements for any code editor:
 │   │   │   ├── mini.lua
 │   │   │   ├── neo-tree.lua
 │   │   │   ├── slides.lua
-│   │   │   ├── surround.lua
 │   │   │   ├── telescope.lua
 │   │   │   ├── treesitter.lua
 │   │   │   ├── typst.lua

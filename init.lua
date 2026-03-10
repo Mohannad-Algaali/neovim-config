@@ -22,12 +22,17 @@ require('lazy').setup {
   -- my plugins
   require 'custom.plugins.indent_line',
   require 'custom.plugins.autopairs',
-  require 'custom.plugins.neo-tree',
+  -- require 'custom.plugins.neo-tree',
   require 'custom.plugins.markview',
   require 'custom.plugins.codeium',
-  require 'custom.plugins.typst',
+  -- require 'custom.plugins.typst',
   require 'custom.plugins.love',
+  require 'custom.plugins.oil',
+  require 'custom.plugins.alpha',
+  -- require 'custom.plugins.power-mode',
 }
+
+require 'utils.oil'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

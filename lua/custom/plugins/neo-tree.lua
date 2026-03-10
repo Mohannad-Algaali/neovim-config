@@ -33,6 +33,7 @@ return {
   opts = {
     filesystem = {
       filesystem = {
+        bind_to_cwd = true,
         hide_hidden = false,
         always_show_by_pattern = { -- uses glob style patterns
           '.env*',
